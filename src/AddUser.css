@@ -15,3 +15,15 @@ header {
 .formBackground {
   background-color: #16374d;
 }
+
+.btn-lg {
+  padding: 6px 20px;
+  font-size: 17px;
+  border-radius: 2px;
+  width: 47%;
+}
+
+p {
+  color: red;
+  background-color: aliceblue;
+}
