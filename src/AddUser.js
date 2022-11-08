@@ -65,15 +65,11 @@ export default function AddUser() {
     return errors;
   };
 
-  // const addEmployee = () => {
-  //   Axios.post("http://localhost:3001/create", {
-  //     e_name: e_name,
-  //     e_age: e_age,
-  //     country: country,
-  //     position: position,
-  //     salary: salary,
-  //   }).then(() => {});
-  // };
+  const addEmployee = () => {
+    Axios.post("/register", {
+      
+    }).then(() => {console.log("empty test")});
+  };
 
   return (
     <div>
@@ -168,7 +164,7 @@ export default function AddUser() {
                     <button
                       className="btn btn-success mx-2  "
                       type="submit"
-                      // onClick={addEmployee}
+                      onClick={addEmployee}
                     >
                       Submit
                     </button>

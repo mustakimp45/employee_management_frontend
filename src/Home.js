@@ -4,7 +4,7 @@ import {useState} from 'react'
 import Axios from 'axios'
 import styled from "styled-components";
 
-import showEmployee from './components/ShowEmployee'
+import ShowEmployee from './components/ShowEmployee'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -77,18 +77,15 @@ const ViewEmployee =  ({isShowLogin},id) =>{
 }
 
 const updateEmployeeWage = (id) => {
-  Axios.put("http://localhost:3001/update", {e_name : NewEname, salary: NewSalary, id: id }).then(
+  Axios.put("http://localhost:3001/update", {
+
+  }).then(
     (response) => {
       setEmployeeList(
         EmployeeList.map((value) => {
           return value.id === id
             ? {
-                id: value.id,
-                e_name: NewEname,
-                e_age: value.e_age,
-                country: value.country,
-                position: value.position,
-                salary: NewSalary,
+               
               }
             : value;
         })
@@ -111,15 +108,7 @@ const deleteEmployee = (id) => {
 
   return (
     <div>
-      <showEmployee />
-     
-      <h3>
-        * Home page to show the existing data from data base  </h3>
-      <h3>* search bar the data by name</h3>  
-       <h3>* Actions View button (View By PDF Form of the data & download the PDF)</h3>
-       <h3>* update the existing data  (Alert As Updated)</h3>
-     <h3> * delete the entire data row (Alert as Deleted) & Add Comment why to update the data</h3> 
-      <h3> * Api request by sujith </h3>
+      <ShowEmployee />
     </div>
   );
 }

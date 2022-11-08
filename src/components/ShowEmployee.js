@@ -6,7 +6,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function EmployeeList() {
+import { UpdateEmployee } from './UpdateEmployee';
+
+function ShowEmployee() {
 
     const [firstName , setfirstName] = useState("")
   const [lastName , setlastName] = useState(0)
@@ -23,17 +25,17 @@ function EmployeeList() {
   const [EmployeeList , setEmployeeList] = useState([])
 
   const showEmployee = () =>{
-    Axios.get("http://localhost:3001/showEmployee",{
+    Axios.get("/allEmployees",{
     
   }).then((response)=>{setEmployeeList(response.data)})
   }
   return (
     <div>
         <div>
-      <div className="containers">
+      <div className="containers-md">
       </div>
       <div class="row">
-    <div class="col">
+    <div class="col-5">
     </div>
     <div class="col-5">
     <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
@@ -62,36 +64,15 @@ function EmployeeList() {
             <td>{value.email}</td>
             <td>{value.phone}</td>
             <td>
-              <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button>
-              <button className="btn btn-outline-primary" onClick={() => { updateEmployeeWage(value.id); } }><EditIcon /></button>
-              <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }><DeleteIcon /></button>
+              {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
+              <button className="btn btn-outline-primary" onClick={UpdateEmployee}><EditIcon /></button>
+              {/* <button className="btn btn-outline-primary" onClick={() => { updateEmployeeWage(value.id); } }><EditIcon /></button> */}
+              {/* <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }><DeleteIcon /></button> */}
             </td>
             </tr>
           </tbody>
         </table>
         <div>
-          {/* <input
-            type="text"
-            placeholder="Name"
-            onChange={(event) => {
-              setNewEname(event.target.value);
-            } } />
-          <input
-            type="number"
-            placeholder="Salary CTC"
-            onChange={(event) => {
-              setNewSalary(event.target.value);
-            } } />
-
-          <button className="btn btn-primary"
-            onClick={() => {
-              updateEmployeeWage(value.id);
-            } }
-          >{""}Update</button>
-        
-    <button className='btn btn-danger'onClick={() => {deleteEmployee(value.id);}}>
-                   Delete
-                    </button>  */}
         </div>
       </div>)}
       </div>
@@ -99,4 +80,4 @@ function EmployeeList() {
   )
 }
 
-export default EmployeeList
+export default ShowEmployee
