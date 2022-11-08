@@ -20,6 +20,7 @@ function EmployeeList() {
   const [Newemail, setNewemail] = useState(0);
   const [Newphone , setNewphone] = useState(0)
 
+  const [EmployeeList , setEmployeeList] = useState([])
 
   const showEmployee = () =>{
     Axios.get("http://localhost:3001/showEmployee",{

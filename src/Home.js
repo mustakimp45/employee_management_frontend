@@ -112,71 +112,7 @@ const deleteEmployee = (id) => {
   return (
     <div>
       <showEmployee />
-      {/* <div className="containers">
-      <SearchBar placeholder="Enter a Book Name..." data={BookData}/>
-      </div>
-      <div class="row">
-    <div class="col">
-    </div>
-    <div class="col-5">
-    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
-    </div>
-    <div class="col"> 
-    </div>
-  </div>
-      {EmployeeList.map((value,key) =><div>
-
-        <table className='table table-hover' id="DisplayRequest">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Age</th>
-              <th scope="col">Country</th>
-              <th scope="col">Position</th>
-              <th scope="col">Salary</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-          <td>{value.e_name}</td>
-            <td>{value.e_age}</td>
-            <td>{value.country}</td>
-            <td>{value.position}</td>
-            <td>{value.salary}</td>
-            <td>
-              <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button>
-              <button className="btn btn-outline-primary" onClick={() => { updateEmployeeWage(value.id); } }><EditIcon /></button>
-              <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }><DeleteIcon /></button>
-            </td>
-            </tr>
-          </tbody>
-        </table>
-        <div> */}
-          {/* <input
-            type="text"
-            placeholder="Name"
-            onChange={(event) => {
-              setNewEname(event.target.value);
-            } } />
-          <input
-            type="number"
-            placeholder="Salary CTC"
-            onChange={(event) => {
-              setNewSalary(event.target.value);
-            } } />
-
-          <button className="btn btn-primary"
-            onClick={() => {
-              updateEmployeeWage(value.id);
-            } }
-          >{""}Update</button>
-        
-    <button className='btn btn-danger'onClick={() => {deleteEmployee(value.id);}}>
-                   Delete
-                    </button>  */}
-        {/* </div>
-      </div>)} */}
+     
       <h3>
         * Home page to show the existing data from data base  </h3>
       <h3>* search bar the data by name</h3>  
