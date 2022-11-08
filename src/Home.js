@@ -4,14 +4,12 @@ import {useState} from 'react'
 import Axios from 'axios'
 import styled from "styled-components";
 
-import SearchBar from "./components/SearchBar";
-import BookData from "./Data.json";
-  
+import showEmployee from './components/ShowEmployee'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import Modal from 'react-modal';
+
 
 export const containers = styled.div`
   width: 100%;
@@ -39,10 +37,18 @@ export default function Home() {
 
   const [EmployeeList , setEmployeeList] = useState([])
 
-  const [NewSalary, setNewSalary] = useState(0);
-  const [NewEname, setNewEname] = useState(0);
-  const [Newage, setNewage] = useState(0);
-  const [Newcountry, setNewcountry] = useState(0);
+
+  const [firstName , setfirstName] = useState("")
+  const [lastName , setlastName] = useState(0)
+  const [dateOfBirth , setdateOfBirth] = useState("")
+  const [email , setemail] = useState("")
+  const [phone , setphone] = useState(0)
+
+  const [NewfirstName, setNewfirstName] = useState(0);
+  const [NewlastName, setNewlastName] = useState(0);
+  const [NewdateOfBirth, setNewdateOfBirth] = useState(0);
+  const [Newemail, setNewemail] = useState(0);
+  const [Newphone , setNewphone] = useState(0)
 
   const showEmployee = () =>{
     Axios.get("http://localhost:3001/showEmployee",{
@@ -50,43 +56,28 @@ export default function Home() {
   }).then((response)=>{setEmployeeList(response.data)})
 }
 
-let subtitle;
-const [modalIsOpen, setIsOpen] = React.useState(false);
-
-function openModal() {
-  setIsOpen(true);
-}
-
-function afterOpenModal() {
-  // references are now sync'd and can be accessed.
-  subtitle.style.color = '#f00';
-}
-
-function closeModal() {
-  setIsOpen(false);
-}
-const ViewEmployee =  (id) =>{
-  Axios.get(`http://localhost:3001/viewEmployee/${id}`,{
+const ViewEmployee =  ({isShowLogin},id) =>{
+  Axios.get(`http://localhost:3001/viewEmployee`,{
   
   }).then((response) => {
-    <div>
-    {/* <button onClick={openModal}>Open Modal</button> */}
-    <Modal
-      isOpen={modalIsOpen}
-      onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
-      style={customStyles}
-      contentLabel="Example Modal"
-    >
-      <button onClick={closeModal}>close</button>
-     <li>Hii</li>
-    </Modal>
+    <div className={`${!isShowLogin ? "active" : ""} show`}>
+      <div className="Login-form">
+            <div className="form-box solid">
+              <table className="table table-hover">
+                  <tbody>
+                    <tr>
+                      {setEmployeeList(response.data.e_name )}
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+      </div>
   </div>
   })
 }
 
 const updateEmployeeWage = (id) => {
-  Axios.put("http://localhost:3001/update", { salary: NewSalary, id: id }).then(
+  Axios.put("http://localhost:3001/update", {e_name : NewEname, salary: NewSalary, id: id }).then(
     (response) => {
       setEmployeeList(
         EmployeeList.map((value) => {
@@ -120,74 +111,8 @@ const deleteEmployee = (id) => {
 
   return (
     <div>
-      <div className="containers">
-      <SearchBar placeholder="Enter a Book Name..." data={BookData}/>
-      </div>
-      <div class="row">
-    <div class="col">
-    </div>
-    <div class="col-5">
-    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
-    </div>
-    <div class="col"> 
-    </div>
-  </div>
-      {EmployeeList.map((value,key) =><div>
-
-        <table className='table table-hover' id="DisplayRequest">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Age</th>
-              <th scope="col">Country</th>
-              <th scope="col">Position</th>
-              <th scope="col">Salary</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-          <td>{value.e_name}</td>
-            <td>{value.e_age}</td>
-            <td>{value.country}</td>
-            <td>{value.position}</td>
-            <td>{value.salary}</td>
-            <td>
-              <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button>
-              <button className="btn btn-outline-primary" onClick={() => { updateEmployeeWage(value.id); } }><EditIcon /></button>
-              <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }>
-                <div className=""></div>
-                <DeleteIcon />
-              </button>
-            </td>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-          {/* <input
-            type="text"
-            placeholder="Name"
-            onChange={(event) => {
-              setNewEname(event.target.value);
-            } } />
-          <input
-            type="number"
-            placeholder="Salary CTC"
-            onChange={(event) => {
-              setNewSalary(event.target.value);
-            } } />
-
-          <button className="btn btn-primary"
-            onClick={() => {
-              updateEmployeeWage(value.id);
-            } }
-          >{""}Update</button>
-        
-    <button className='btn btn-danger'onClick={() => {deleteEmployee(value.id);}}>
-                   Delete
-                    </button>  */}
-        </div>
-      </div>)}
+      <showEmployee />
+     
       <h3>
         * Home page to show the existing data from data base  </h3>
       <h3>* search bar the data by name</h3>  
