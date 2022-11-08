@@ -37,8 +37,8 @@ function ShowEmployee() {
       <div class="row">
     <div class="col-5">
     </div>
-    <div class="col-5">
-    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
+    <div class="col-5 offset-md-4 grid">
+    {/* <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button> */}
     </div>
     <div class="col"> 
     </div>

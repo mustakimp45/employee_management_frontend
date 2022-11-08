@@ -45,7 +45,7 @@ export default function AddUser() {
     const data = { firstname, lastname, dob, email, phone, photo };
 
     axios
-      .post("", data)
+      .post("/register", {data})
       .then((response) => {
         console.log(response);
         e.target.reset();
