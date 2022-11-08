@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SearchBar from "./SearchBar";
 import {
   NavbarContainer,
   LeftContainer,
@@ -33,9 +34,7 @@ function Navbar() {
             </OpenLinksButton>
           </NavbarLinkContainer>
         </LeftContainer>
-        <RightContainer>
-          {/* <Logo src={LogoImg}></Logo> */}
-        </RightContainer>
+        <RightContainer>{/* <Logo src={LogoImg}></Logo> */}</RightContainer>
       </NavbarInnerContainer>
       {extendNavbar && (
         <NavbarExtendedContainer>
@@ -43,6 +42,7 @@ function Navbar() {
           <NavbarLinkExtended to="/AddUser"> Add User</NavbarLinkExtended>
           <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
           <NavbarLinkExtended to="/about"> About Us</NavbarLinkExtended>
+          <SearchBar placeholder="Enter a Book Name..." data={BookData} />
         </NavbarExtendedContainer>
       )}
     </NavbarContainer>
