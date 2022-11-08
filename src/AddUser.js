@@ -6,19 +6,20 @@ import'./AddUser.css'
 
 export default function AddUser() {
 
-  const [e_name , setName] = useState("")
-  const [e_age , setAge] = useState(0)
-  const [country , setCountry] = useState("")
-  const [position , setPosition] = useState("")
-  const [salary , setSalary] = useState(0)
+  const [firstName , setfirstName] = useState("")
+  const [lastName , setlastName] = useState(0)
+  const [dateOfBirth , setdateOfBirth] = useState("")
+  const [email , setemail] = useState("")
+  const [phone , setphone] = useState(0)
+  
 
   const addEmployee = () =>{
     Axios.post("http://localhost:3001/create",{
-      e_name :e_name,
-      e_age:e_age,
-      country:country,
-      position:position,
-      salary:salary
+      firstName : firstName,
+      lastName : lastName,
+      dateOfBirth : dateOfBirth,
+      email : email,
+      phone : phone
     }).then(()=>{
       
      })}

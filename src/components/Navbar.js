@@ -13,10 +13,6 @@ import {
 //import LogoImg from "../assets/logo.png";
 
 
-import SearchBar from "./SearchBar";
-import BookData from "../Data.json";
-
-
 
 function Navbar() {
   const [extendNavbar, setExtendNavbar] = useState(false);
@@ -45,7 +41,6 @@ function Navbar() {
       </NavbarInnerContainer>
       {extendNavbar && (
         <NavbarExtendedContainer>
-          <SearchBar placeholder="Enter a Book Name..." data={BookData} />
           <NavbarLinkExtended to="/"> Home</NavbarLinkExtended>
           <NavbarLinkExtended to="/AddUser"> Add User</NavbarLinkExtended>
           <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
