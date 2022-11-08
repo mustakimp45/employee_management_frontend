@@ -1,5 +1,17 @@
-form{
-    margin-top: 50px;
-    margin-left: 50px;
-    letter-spacing: 5px;
+/* body {
+  height: 100%;
+  background-color: #16374d;
+  overflow: hidden;
+} */
+
+label {
+  color: aliceblue;
+}
+
+header {
+  color: beige;
+}
+
+.formBackground {
+  background-color: #16374d;
 }

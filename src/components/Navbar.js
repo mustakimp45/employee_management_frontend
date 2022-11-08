@@ -13,11 +13,8 @@ import {
 } from "../styles/Navbar.style";
 //import LogoImg from "../assets/logo.png";
 
-
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 import BookData from "../Data.json";
-
-
 
 function Navbar() {
   const [extendNavbar, setExtendNavbar] = useState(false);
@@ -28,7 +25,7 @@ function Navbar() {
         <LeftContainer>
           <NavbarLinkContainer>
             <NavbarLink to="/"> Home</NavbarLink>
-            <NavbarLink to="/AddUser"> Add User</NavbarLink>
+            <NavbarLink to="/AddUser"> AddUser</NavbarLink>
             <NavbarLink to="/contact"> Contact Us</NavbarLink>
             <NavbarLink to="/about"> About Us</NavbarLink>
             <OpenLinksButton
