@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
-import Axios from "axios";
+import { NavLink } from "react-router-dom";
 import "./AddUser.css";
+import axios from "axios";
 
 export default function AddUser() {
+  //initialising the initial value as null
   const initialValues = {
     firstname: "",
     lastname: "",
@@ -14,22 +15,48 @@ export default function AddUser() {
     photo: "",
   };
 
+  //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
   const [isSubmit, setisSubmit] = useState(false);
 
+  //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
   };
 
+  //function for submitting the form after validating
   const handleSubmit = (e) => {
     e.preventDefault();
     setformError(validate(formValue));
     setisSubmit(true);
+
+    //sending data to backend
+
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
+    const dob = e.target.dob.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone.value;
+    const photo = e.target.photo.value;
+
+    const data = { firstname, lastname, dob, email, phone, photo };
+
+    axios
+      .post("", data)
+      .then((response) => {
+        console.log(response);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
+  //useEffect for render only when change in formValue ,
+  //formValue as dependency
   useEffect(() => {
     console.log(formError);
     if (Object.keys(formError).length === 0 && isSubmit) {
@@ -37,6 +64,12 @@ export default function AddUser() {
     }
   }, [formError]);
 
+  // function to reset form
+  const reset = () => {
+    setformValue({ ...initialValues });
+  };
+
+  //function for validating input fields
   const validate = (value) => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -47,7 +80,7 @@ export default function AddUser() {
       errors.lastname = "lastname is required";
     }
     if (!value.dob) {
-      errors.dob = "dob is required";
+      errors.dob = "date of birth is required";
     }
     if (!value.email) {
       errors.email = "email is required";
@@ -65,11 +98,15 @@ export default function AddUser() {
     return errors;
   };
 
-  const addEmployee = () => {
-    Axios.post("/register", {
-      
-    }).then(() => {console.log("empty test")});
-  };
+  // const addEmployee = () => {
+  //   Axios.post("http://localhost:3001/create", {
+  //     e_name: e_name,
+  //     e_age: e_age,
+  //     country: country,
+  //     position: position,
+  //     salary: salary,
+  //   }).then(() => {});
+  // };
 
   return (
     <div>
@@ -95,6 +132,7 @@ export default function AddUser() {
                       value={formValue.firstname}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.firstname}</p>
                   </div>
                   <div className="field mb-2">
                     <label>LAST NAME</label>
@@ -107,6 +145,7 @@ export default function AddUser() {
                       value={formValue.lastname}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.lastname}</p>
                   </div>
 
                   <div className="field mb-2">
@@ -114,11 +153,13 @@ export default function AddUser() {
                     <input
                       type="date"
                       name="dob"
+                      pattern="\d{1,2}/\d{1,2}/\d{4}"
                       placeholder="date of birth"
                       className="form-control"
                       value={formValue.dob}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.dob}</p>
                   </div>
 
                   <div className="field mb-2">
@@ -126,11 +167,13 @@ export default function AddUser() {
                     <input
                       type="email"
                       name="email"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                       placeholder="Example@gmail.com"
                       className="form-control"
                       value={formValue.email}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.email}</p>
                   </div>
 
                   <div className="field mb-2">
@@ -144,6 +187,7 @@ export default function AddUser() {
                       value={formValue.phone}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
 
                   <div className="field mb-2">
@@ -156,21 +200,26 @@ export default function AddUser() {
                       value={formValue.photo}
                       onChange={handleChange}
                     />
+                    <p className="mt-1 text-center">{formError.photo}</p>
                   </div>
                   <div className="text-center my-3">
-                    {/* <button className="btn btn-danger  " type="cancel">
+                    <NavLink className="btn btn-danger " to="/">
                       Cancel
-                    </button> */}
+                    </NavLink>
                     <button
-                      className="btn btn-success mx-2  "
+                      className="btn btn-success mx-2 btn-lg "
                       type="submit"
-                      onClick={addEmployee}
+                      // onClick={addEmployee}
                     >
                       Submit
                     </button>
-                    {/* <button className="btn btn-warning " type="reset">
+                    <button
+                      className="btn btn-warning "
+                      type="reset"
+                      onClick={reset}
+                    >
                       Reset
-                    </button> */}
+                    </button>
                   </div>
                 </form>
               </div>
