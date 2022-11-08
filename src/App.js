@@ -17,7 +17,7 @@ function App() {
       <Navbar />
       {/* <SearchBar placeholder="Enter a Book Name..." data={BookData} /> */}
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home />} />
         <Route path="/AddUser" element={<AddUser />} />
          <Route path="/contact" /> {/* Add the feedback page  */}
         <Route path="/about" /> {/* the present of the work we have did in the project and roles  */}
