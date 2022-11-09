@@ -35,20 +35,17 @@ export default function AddUser() {
 
     //sending data to backend
 
-    // const firstname = ;
-    // const lastname = ;
-    // const dob = ;
-    // const email = ;
-    // const phone = ;
-    // const photo = e.target.photo.value;
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
+    const dob = e.target.dob.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone.value;
+    const photo = e.target.photo.value;
 
-    const data = { firstName:e.target.firstname.value,
-       lastName:e.target.lastname.value,
-        DOB :e.target.dob.value,
-         email : e.target.email.value,
-          phone:e.target.phone.value };
+    const data = { firstname, lastname, dob, email, phone, photo };
 
-    axios.post("/register", {data})
+    axios
+      .post("/register", {data})
       .then((response) => {
         console.log(response);
         e.target.reset();
@@ -95,9 +92,9 @@ export default function AddUser() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
-    // if (!value.photo) {
-    //   errors.photo = "photo is required";
-    // }
+    if (!value.photo) {
+      errors.photo = "photo is required";
+    }
     return errors;
   };
 
@@ -130,6 +127,8 @@ export default function AddUser() {
                       type="text"
                       name="firstname"
                       pattern="[a-zA-Z]{4,}"
+                      required
+                      title="ENTER ONLY ALFABETS"
                       placeholder="first Name"
                       className="form-control"
                       value={formValue.firstname}
@@ -143,6 +142,8 @@ export default function AddUser() {
                       type="text"
                       name="lastname"
                       pattern="[a-zA-Z]{4,}"
+                      required
+                      title="ENTER ONLY ALFABETS"
                       placeholder="last Name"
                       className="form-control"
                       value={formValue.lastname}
@@ -185,6 +186,8 @@ export default function AddUser() {
                       type="text"
                       name="phone"
                       pattern="[1-9]{1}[0-9]{9}"
+                      required
+                      title="ENTER 10 DIGIT ONLY"
                       placeholder="Enter your 10 digit number"
                       className="form-control"
                       value={formValue.phone}
