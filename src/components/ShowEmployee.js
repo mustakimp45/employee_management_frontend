@@ -30,6 +30,43 @@ function ShowEmployee() {
   }).then((response)=>{setEmployeeList(response.data)})
   }
 
+  const updateEmployee = (id) => { 
+    Axios.put(`/update/${id}`, {
+      id : id, 
+      firstName: firstName,
+      lastName : lastName,
+      dateOfBirth : dateOfBirth,
+      email : email,
+      phone : phone
+      }).then(
+      (response) => {
+        setEmployeeList(
+          EmployeeList.map((value) => {
+            return value.id === id
+              ? {
+                  id: value.id,
+                  firstName: firstName,
+                  lastName : lastName,
+                  dateOfBirth :dateOfBirth,
+                  email : email,
+                  phone : phone
+                }
+              : value;
+          })
+        );
+      }
+  );
+  };
+
+  const deleteEmployee = (id) => {
+    Axios.delete(`/delete/${id}`).then((response) => {
+      setEmployeeList(
+        EmployeeList.filter((value) => {
+          return value.id !== id
+        })
+      );
+    });
+  };
   
   return (
     <div>
@@ -40,7 +77,7 @@ function ShowEmployee() {
     <div class="col-5">
     </div>
     <div class="col-5 offset-md-4 grid">
-    {/* <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button> */}
+    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
     </div>
     <div class="col"> 
     </div>
@@ -66,10 +103,9 @@ function ShowEmployee() {
             <td>{value.email}</td>
             <td>{value.phone}</td>
             <td>
-              {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
-              <button className="btn btn-outline-primary" onClick={UpdateEmployee}><EditIcon /></button>
-              {/* <button className="btn btn-outline-primary" onClick={() => { updateEmployeeWage(value.id); } }><EditIcon /></button> */}
-              {/* <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }><DeleteIcon /></button> */}
+              <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button>
+              <button className="btn btn-outline-primary" onClick={updateEmployee(value.id)}><EditIcon /></button>
+              <button className='btn btn-outline-danger' onClick={() => { deleteEmployee(value.id); } }><DeleteIcon /></button>
             </td>
             </tr>
           </tbody>

@@ -22,7 +22,7 @@ export function UpdateEmployee() {
 
 const [EmployeeList , setEmployeeList] = useState([])
   const updateEmployeeWage = (id) => {
-        Axios.put("http://localhost:3001/update", {
+        Axios.put("/update/{    }", {
       
         }).then(
           (response) => {
