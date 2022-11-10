@@ -95,7 +95,7 @@ function ShowEmployee() {
                               <div className="col-5 offset-md-4 my-4 d-flex p-2 ">
                               
                                 {/* <input className='' placeholder="Search"/> */}
-                                    {/* <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button> */}
+                                    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
                                           <button className='btn btn-outline-danger' onClick={ViewEmployee}><PictureAsPdfIcon/></button>
                               </div>
                         </div> 
@@ -112,7 +112,7 @@ function ShowEmployee() {
               <th scope="col">Phone No</th>
               <th scope="col">Actions</th>
             </tr>
-          </thead>{showEmployee()}
+          </thead>
           {EmployeeList.map((value,key) =><tbody>
             <tr>
               {EmployeeList.m}
