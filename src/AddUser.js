@@ -7,7 +7,7 @@ import axios from "axios";
 export default function AddUser() {
   //initialising the initial value as null
   const initialValues = {
-    empId: 0,
+    empId :0,
     estuate_ID: "",
     firstname: "",
     lastname: "",
