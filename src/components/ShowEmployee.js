@@ -1,13 +1,22 @@
 import React from "react";
 import Axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
+import "./showEmployee.css";
+
+//ICONS
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
+//UPDATE FUNCTION
 import { UpdateEmployee } from "./UpdateEmployee";
+
+// import React, { useState } from 'react';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
 
 function ShowEmployee() {
   const [firstName, setfirstName] = useState("");
@@ -29,41 +38,45 @@ function ShowEmployee() {
       setEmployeeList(response.data);
     });
   };
-
-  const updateEmployee = (id) => {
-    Axios.put(`/update/${id}`, {
-      id: id,
-      firstName: firstName,
-      lastName: lastName,
-      dateOfBirth: dateOfBirth,
-      email: email,
-      phone: phone,
-    }).then((response) => {
+  const deleteEmployee = (empId) => {
+    Axios.delete(`/delete/${empId}`).then((response) => {
       setEmployeeList(
-        EmployeeList.map((value) => {
-          return value.id === id
-            ? {
-                id: value.id,
-                firstName: firstName,
-                lastName: lastName,
-                dateOfBirth: dateOfBirth,
-                email: email,
-                phone: phone,
-              }
-            : value;
+        EmployeeList.filter((val) => {
+          return val.empId !== empId;
         })
       );
     });
   };
 
-  const deleteEmployee = (id) => {
-    Axios.delete(`/delete/${id}`).then((response) => {
-      setEmployeeList(
-        EmployeeList.filter((value) => {
-          return value.id !== id;
-        })
-      );
+  const ViewEmployee = () => {
+    Axios.get(`/pdfDownload`, { responseType: "blob" }).then((response) => {
+      console.log(typeof response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      link.setAttribute("download", "employeeView.pdf");
+
+      document.body.appendChild(link);
+
+      link.click();
     });
+  };
+
+  const ViewEmployeeById = (empId) => {
+    Axios.get(`/employee/${empId}`, { responseType: "blob" }).then(
+      (response) => {
+        console.log(typeof response.data);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `employeeView.pdf`);
+
+        document.body.appendChild(link);
+
+        link.click();
+      }
+    );
   };
 
   return (
@@ -72,7 +85,7 @@ function ShowEmployee() {
         <div className="containers-md"></div>
         <div class="row">
           <div class="col-5"></div>
-          <div class="col-5 offset-md-4 grid my-2 mx-3">
+          <div class="col-5 offset-md-4 grid">
             <button
               className="btn btn-success"
               type="button"
@@ -85,10 +98,7 @@ function ShowEmployee() {
         </div>
         {EmployeeList.map((value, key) => (
           <div>
-            <table
-              className=" container table table-hover border shadow"
-              id="DisplayRequest"
-            >
+            <table className="table table-hover" id="DisplayRequest">
               <thead>
                 <tr>
                   <th scope="col">First Name</th>
@@ -108,15 +118,12 @@ function ShowEmployee() {
                   <td>{value.phone}</td>
                   <td>
                     {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
-
-                    {/* {edit button} */}
-                    <Link
+                    <button
                       className="btn btn-outline-primary"
-                      to={`/UpdateEmployee/${value.id}`}
+                      onClick={updateEmployee(value.id)}
                     >
                       <EditIcon />
-                    </Link>
-
+                    </button>
                     <button
                       className="btn btn-outline-danger"
                       onClick={() => {

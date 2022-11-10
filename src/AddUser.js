@@ -7,6 +7,8 @@ import axios from "axios";
 export default function AddUser() {
   //initialising the initial value as null
   const initialValues = {
+    empId: 0,
+    estuate_ID: "",
     firstname: "",
     lastname: "",
     dob: "",
@@ -58,8 +60,8 @@ export default function AddUser() {
         alert("succesfully added");
       })
       .catch((error) => {
-        console.log(error);
-        alert("not added");
+        // console.log(error);
+        alert(error.response.data.errorCode);
       });
   };
 
