@@ -161,8 +161,7 @@ export default function UpdateEmployee() {
                   <div className="field mb-2">
                     <label className="text-dark">DATE OF BIRTH</label>
                     <input
-                      type="date
-      {updateEmployeeWage}"
+                      type="date"
                       name="dob"
                       pattern="\d{1,2}/\d{1,2}/\d{4}"
                       className="form-control"
