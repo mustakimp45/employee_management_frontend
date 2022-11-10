@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
- 
+
 export const NavbarContainer = styled.nav`
   width: 100%;
-  align-content: flex-start ;
+  align-content: flex-start;
   height: ${(props) => (props.extendNavbar ? "100vh" : "80px")};
-  background-color: rgba(9, 53, 148);
+  background-color: rgba(27, 96, 143);
   display: flex;
   flex-direction: column;
   @media (min-width: 700px) {

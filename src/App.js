@@ -12,6 +12,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AddUser from "./AddUser";
 import Home from "./Home";
+import UpdateEmployee from "./components/UpdateEmployee";
+import ShowEmployee from "./components/ShowEmployee";
 //WORKING ON FEEDBACK & ABOUT
 function App() {
   return (
@@ -21,8 +23,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/AddUser" element={<AddUser />} />
-        <Route path="/contact" /> {/* Add the feedback page  */}
-        <Route path="/about" />{" "}
+        {/* Add the feedback page  */}
+        {/* <Route path="/contact" /> 
+        <Route path="/about" /> */}
+        <Route path="/ViewEmp" element={<ShowEmployee />} />
+        <Route path="/UpdateEmployee/:id" element={<UpdateEmployee />} />
         {/* the present of the work we have did in the project and roles  */}
       </Routes>
     </Router>

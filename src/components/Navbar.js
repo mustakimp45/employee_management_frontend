@@ -16,14 +16,28 @@ function Navbar() {
   const [extendNavbar, setExtendNavbar] = useState(false);
 
   return (
-    <NavbarContainer extendNavbar={extendNavbar}>
+    <NavbarContainer
+      extendNavbar={extendNavbar}
+      className="shadow bgclr text-white"
+    >
       <NavbarInnerContainer>
         <LeftContainer>
           <NavbarLinkContainer>
-            <NavbarLink to="/"> Home</NavbarLink>
-            <NavbarLink to="/AddUser"> AddUser</NavbarLink>
-            <NavbarLink to="/contact"> Contact Us</NavbarLink>
-            <NavbarLink to="/about"> About Us</NavbarLink>
+            <NavbarLink to="/" className="btn btn-outline-light btn-sm">
+              Home
+            </NavbarLink>
+            <NavbarLink to="/AddUser" className="btn btn-outline-light btn-sm">
+              {" "}
+              AddUser
+            </NavbarLink>
+            {/* <NavbarLink to="/contact"> Contact Us</NavbarLink>
+            <NavbarLink to="/about"> About Us</NavbarLink> */}
+            <NavbarLink
+              to="/ViewEmp"
+              className="btn btn-outline-light shadow-lg  rounded shadow btn-sm"
+            >
+              ViewEmp
+            </NavbarLink>
             <OpenLinksButton
               onClick={() => {
                 setExtendNavbar((curr) => !curr);
@@ -39,8 +53,8 @@ function Navbar() {
         <NavbarExtendedContainer>
           <NavbarLinkExtended to="/"> Home</NavbarLinkExtended>
           <NavbarLinkExtended to="/AddUser"> Add User</NavbarLinkExtended>
-          <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
-          <NavbarLinkExtended to="/about"> About Us</NavbarLinkExtended>
+          {/* <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
+          <NavbarLinkExtended to="/about"> About Us</NavbarLinkExtended> */}
         </NavbarExtendedContainer>
       )}
     </NavbarContainer>

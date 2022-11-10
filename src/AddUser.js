@@ -55,9 +55,11 @@ export default function AddUser() {
       .then((response) => {
         console.log(response);
         e.target.reset();
+        alert("succesfully added");
       })
       .catch((error) => {
         console.log(error);
+        alert("not added");
       });
   };
 
