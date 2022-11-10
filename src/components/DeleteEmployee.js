@@ -7,16 +7,18 @@ function DeleteEmployee() {
 
     const deleteEmployee = (id) => {
         // alert("This Will Be Permanently removed from DataBase")
-        Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+        Axios.delete(`/delete/${id}`).then((response) => {
           setEmployeeList(
             EmployeeList.filter((val) => {
-              return val.id !== id;  
+              return val.id !== id
             })
           );
         });
       };
   return (
-    <div>DeleteEmployee</div>
+    <div>
+      DeleteEmployee
+      {deleteEmployee()}</div>
   )
 }
 

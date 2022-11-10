@@ -40,7 +40,9 @@ const [EmployeeList , setEmployeeList] = useState([])
       };
     
   return (
-    <div>UpdateEmployee</div>
+    <div>
+      UpdateEmployee
+      {updateEmployeeWage}</div>
   )
 }
 
