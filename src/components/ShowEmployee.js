@@ -5,7 +5,6 @@ import {useState} from 'react'
 import './showEmployee.css'
 
 //ICONS
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -13,18 +12,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 //UPDATE FUNCTION
 import  UpdateEmployee  from './UpdateEmployee'
 
-
-// import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
-
-
-
-
-import { Link } from "react-router-dom";
-
-
+import { Link } from 'react-router-dom';
 
 // commit 23f5c68534faf447312e2b3a49f5bdc2593d3525
 // Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
@@ -40,18 +28,6 @@ import { Link } from "react-router-dom";
 //     commit render showemployee
 
 function ShowEmployee() {
-
-    const [firstName , setfirstName] = useState("")
-  const [lastName , setlastName] = useState(0)
-  const [dateOfBirth , setdateOfBirth] = useState("")
-  const [email , setemail] = useState("")
-  const [phone , setphone] = useState(0)
-
-  const [NewfirstName, setNewfirstName] = useState(0);
-  const [NewlastName, setNewlastName] = useState(0);
-  const [NewdateOfBirth, setNewdateOfBirth] = useState(0);
-  const [Newemail, setNewemail] = useState(0);
-  const [Newphone , setNewphone] = useState(0)
 
   const [EmployeeList , setEmployeeList] = useState([])
 
@@ -77,7 +53,7 @@ function ShowEmployee() {
       const link = document.createElement('a')
       link.href = url
 
-      link.setAttribute('download','employeeView.pdf')
+      link.setAttribute('download','AllEmployeeList.pdf')
 
       document.body.appendChild(link)
 
@@ -91,7 +67,7 @@ function ShowEmployee() {
       const url = window.URL.createObjectURL(new Blob ([response.data]))
       const link = document.createElement('a')
       link.href = url
-    link.setAttribute('download',`employeeView.pdf`)
+    link.setAttribute('download',`employee-${empId}.pdf`)
 
       document.body.appendChild(link)
 
@@ -138,7 +114,8 @@ function ShowEmployee() {
                   <td>{value.phone}</td>
                   <td>
                     <button className="btn btn-outline-danger" onClick={() => {ViewEmployeeById(value.empId)}} ><PictureAsPdfIcon/></button>
-                    <button className="btn btn-outline-primary" to={`/UpdateEmployee/${value.empId}`}><EditIcon /></button>
+                    {/* <button className="btn btn-outline-primary" to={`/UpdateEmployee/${value.empId}`}><EditIcon /></button> */}
+                    <Link className='btn btn-outline-primary' to={`/UpdateEmployee/${value.empId}`}><EditIcon/></Link>
                     <button className="btn btn-outline-danger" onClick={() => {deleteEmployee(value.empId);}}><DeleteIcon /></button>
                   </td>
                 </tr>

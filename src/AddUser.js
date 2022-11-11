@@ -9,21 +9,21 @@ export default function AddUser() {
   const initialValues = {
     empId :0,
     estuate_ID: "",
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     dob: "",
     email: "",
     phone: "",
-    photo: "",
+   data:[""]
   };
-
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
   const [isSubmit, setisSubmit] = useState(false);
-
+const [file,setFile] =useState()
   //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
+    setFile(e.target.file[0])
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
@@ -35,6 +35,14 @@ export default function AddUser() {
     setformError(validate(formValue));
     setisSubmit(true);
 
+    //const url =`/register`
+    const formData = new formData()
+    formData.append('file',file)
+    formData.append('fileName',file.name)
+    const config = {
+      header:{'content-type': 'multipart/form-data',}
+      ,
+    }
     //sending data to backend
 
     // const firstname = e.target.firstname.value;
@@ -51,9 +59,8 @@ export default function AddUser() {
       email: e.target.email.value,
       phone: e.target.phone.value,
     };
-
     axios
-      .post("/register", employee)
+      .post("/register",file,employee )
       .then((response) => {
         console.log(response);
         e.target.reset();
@@ -105,7 +112,7 @@ export default function AddUser() {
     // if (!value.photo) {
     //   errors.photo = "photo is required";
     // }
-    return errors;
+    // return errors;
   };
 
   // const addEmployee = () => {
@@ -210,10 +217,11 @@ export default function AddUser() {
                     <label>PHOTO</label>
                     <input
                       type="file"
-                      name="photo"
+                      name="PhotoUpload"
+                      label="File"
                       placeholder="Upload Photo"
                       className="form-control"
-                      value={formValue.photo}
+                    // value={formValue.photo}
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.photo}</p>
