@@ -1,8 +1,30 @@
 import React from "react";
 import Axios from "axios";
 import { useState } from "react";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 
+=======
+
+import "./showEmployee.css";
+
+//ICONS
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+
+//UPDATE FUNCTION
+import UpdateEmployee from "./UpdateEmployee";
+
+import { Link } from "react-router-dom";
+
+// commit 23f5c68534faf447312e2b3a49f5bdc2593d3525
+// Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
+// Date:   Thu Nov 10 17:15:20 2022 +0530
+
+//     Pdf download Working
+
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -100,8 +122,14 @@ function ShowEmployee() {
             className=" container table table-hover border shadow"
             id="DisplayRequest"
           >
+<<<<<<< HEAD
             <thead>
               <tr>
+=======
+            <thead className="text-center">
+              <tr>
+                <th scope="col">EstId</th>
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">DOB</th>
@@ -111,17 +139,25 @@ function ShowEmployee() {
               </tr>
             </thead>
             {EmployeeList.map((value, key) => (
+<<<<<<< HEAD
               <tbody>
+=======
+              <tbody className="text-center">
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
                 <tr>
+                  <td>{value.empId}</td>
                   <td>{value.firstName}</td>
                   <td>{value.lastName}</td>
                   <td>{value.dateOfBirth}</td>
                   <td>{value.email}</td>
                   <td>{value.phone}</td>
                   <td>
+<<<<<<< HEAD
                     {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
 
                     {/* {edit button} */}
+=======
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
                     <Link
                       className="btn btn-outline-primary"
                       to={`/UpdateEmployee/${value.empId}`}
@@ -153,11 +189,18 @@ function ShowEmployee() {
                       <AddAPhotoSharpIcon />
                     </Link>
                     <Link
+<<<<<<< HEAD
                      accept="image/*"
                       className="btn btn-outline-primary mx-1"
                       to={`/Viewphoto/${value.empId}`}
                     >
                       <PanoramaIcon /> 
+=======
+                      className="btn btn-outline-primary "
+                      to={`/Viewphoto/${value.empId}`}
+                    >
+                      <PanoramaIcon />
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
                     </Link>
                   </td>
                 </tr>

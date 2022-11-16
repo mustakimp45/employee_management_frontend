@@ -16,22 +16,27 @@ import Home from "./Home";
 import UpdateEmployee from "./components/UpdateEmployee";
 import ShowEmployee from "./components/ShowEmployee";
 import AddPhoto from "./AddPhoto";
+<<<<<<< HEAD
+=======
+import Viewphoto from "./Viewphoto";
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
 //WORKING ON FEEDBACK & ABOUT
 function App() {
   return (
     <Router>
       <Navbar />
-      {/* <SearchBar placeholder="Enter a Book Name..." data={BookData} /> */}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/AddUser" element={<AddUser />} />
-        {/* Add the feedback page  */}
-        {/* <Route path="/contact" /> 
-        <Route path="/about" /> */}
         <Route path="/ViewEmp" element={<ShowEmployee />} />
         <Route path="/UpdateEmployee/:id" element={<UpdateEmployee />} />
         <Route path="/AddPhoto/:id" element={<AddPhoto />} />
+<<<<<<< HEAD
         {/* the present of the work we have did in the project and roles  */}
+=======
+        <Route path="/Viewphoto/:id" element={<Viewphoto />} />
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
       </Routes>
     </Router>
   );

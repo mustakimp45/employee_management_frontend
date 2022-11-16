@@ -1,15 +1,7 @@
 import React from "react";
-import { useState } from "react";
-//import './App.css'
-import Axios from "axios";
 import styled from "styled-components";
 import "./Home.css";
 import img1 from "./image/ems1.png";
-
-import ShowEmployee from "./components/ShowEmployee";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 export const containers = styled.div`
   width: 100%;
@@ -22,18 +14,8 @@ export const containers = styled.div`
   }
 `;
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
 export default function Home() {
+<<<<<<< HEAD
   const [EmployeeList, setEmployeeList] = useState([]);
 
   const [firstName, setfirstName] = useState("");
@@ -91,6 +73,8 @@ export default function Home() {
     });
   };
 
+=======
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
   return (
     <div className="">
       <div>
@@ -99,9 +83,6 @@ export default function Home() {
             <h1 className="hometext ">EMPLOYEE MANAGEMENT</h1>
             <h1 className="hometext">SYSTEM</h1>
           </div>
-          {/* <div>
-            <button className="btn btn-primary">see</button>
-          </div> */}
         </div>
         <div className="float-end my-4 mx-3 col-6 text-center show_image">
           <div>
@@ -112,8 +93,6 @@ export default function Home() {
       <div className=" text-center footer text-light ">
         <h6 className="my-3">@Estuate Inc</h6>
       </div>
-
-      {/* <ShowEmployee /> */}
     </div>
   );
 }

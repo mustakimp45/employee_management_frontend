@@ -14,16 +14,27 @@ export default function AddUser() {
     dob: "",
     email: "",
     phone: "",
+<<<<<<< HEAD
     photo: "",
+=======
+    data: [""],
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
   };
 
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
   const [isSubmit, setisSubmit] = useState(false);
+<<<<<<< HEAD
 
   //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
+=======
+  const [file, setFile] = useState();
+  //function to handle the change by user , like change in input fields
+  const handleChange = (e) => {
+    setFile(e.target.file[0]);
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
@@ -35,14 +46,17 @@ export default function AddUser() {
     setformError(validate(formValue));
     setisSubmit(true);
 
+<<<<<<< HEAD
+=======
+    //const url =`/register`
+    const formData = new formData();
+    formData.append("file", file);
+    formData.append("fileName", file.name);
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
     //sending data to backend
-
-    // const firstname = e.target.firstname.value;
-    // const lastname = e.target.lastname.value;
-    // const dob = e.target.dob.value;
-    // const email = e.target.email.value;
-    // const phone = e.target.phone.value;
-    // const photo = e.target.photo.value;
 
     let employee = {
       firstName: e.target.firstname.value,
@@ -53,7 +67,11 @@ export default function AddUser() {
     };
 
     axios
+<<<<<<< HEAD
       .post("/register", employee)
+=======
+      .post("/register", file, employee)
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
       .then((response) => {
         console.log(response);
         e.target.reset();
@@ -102,21 +120,15 @@ export default function AddUser() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
+<<<<<<< HEAD
     // if (!value.photo) {
     //   errors.photo = "photo is required";
     // }
+=======
+
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
     return errors;
   };
-
-  // const addEmployee = () => {
-  //   Axios.post("http://localhost:3001/create", {
-  //     e_name: e_name,
-  //     e_age: e_age,
-  //     country: country,
-  //     position: position,
-  //     salary: salary,
-  //   }).then(() => {});
-  // };
 
   return (
     <>
@@ -210,6 +222,7 @@ export default function AddUser() {
                     <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
 
+<<<<<<< HEAD
                   <div className="field mb-2">
                     <label>PHOTO</label>
                     <input
@@ -223,6 +236,8 @@ export default function AddUser() {
                     <p className="mt-1 text-center">{formError.photo}</p>
                   </div>
 
+=======
+>>>>>>> 91166ebf997f0dcf4bd7f216e3562d26a660cb45
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">
                       Cancel

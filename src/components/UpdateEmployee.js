@@ -12,9 +12,8 @@ export default function UpdateEmployee() {
     dob: "",
     email: "",
     phone: "",
-    photo: "",
   };
-
+  const [file, setFile] = useState();
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
@@ -108,9 +107,7 @@ export default function UpdateEmployee() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
-    // if (!value.photo) {
-    //   errors.photo = "photo is required";
-    // }
+
     return errors;
   };
 
@@ -197,17 +194,6 @@ export default function UpdateEmployee() {
                     <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
 
-                  {/* <div className="field mb-2">
-                    <label className="text-dark">PHOTO</label>
-                    <input
-                      type="file"
-                      name="photo"
-                      className="form-control"
-                      value={formValue.photo}
-                      onChange={handleChange}
-                    />
-                    <p className="mt-1 text-center">{formError.photo}</p>
-                  </div> */}
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">
                       Cancel
