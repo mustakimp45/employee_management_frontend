@@ -102,7 +102,7 @@ function ShowEmployee() {
           >
             <thead className="text-center">
               <tr>
-                <th scope="col">EmpId</th>
+                <th scope="col">EstId</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">DOB</th>
@@ -121,9 +121,6 @@ function ShowEmployee() {
                   <td>{value.email}</td>
                   <td>{value.phone}</td>
                   <td>
-                    {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
-
-                    {/* {edit button} */}
                     <Link
                       className="btn btn-outline-primary"
                       to={`/UpdateEmployee/${value.empId}`}
@@ -165,11 +162,11 @@ function ShowEmployee() {
               </tbody>
             ))}
           </table>
-          <div>
+          {/* <div>
             <div className=" text-center footer text-light ">
               <h6 className="my-3">@Estuate Inc</h6>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

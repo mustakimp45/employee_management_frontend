@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DownloadIcon from "@mui/icons-material/Download";
 
 function Viewphoto() {
   const { id } = useParams();
@@ -9,14 +12,6 @@ function Viewphoto() {
     setView(response.data);
     console.log(view);
   });
-
-  //prerview
-  // const reader = new FileReader()
-  // reader.addEventListener('loadend', () =>{
-  //   //console.log(reader.result);
-  //   setFileData(reader.result);
-  // });
-  // reader.readAsDataURL(file);
 
   function downloadphoto() {
     axios({
@@ -39,7 +34,7 @@ function Viewphoto() {
         <div className="row-4 ">
           <div className="col-md-6 offset-md-3 text-center border my-4">
             <div className="text-center">
-              {Viewphoto} <h3>EmpId-{id} Photo</h3>
+              {Viewphoto} <h3>Profile Picture</h3>
               <img
                 className="img-thumbnail"
                 src={`http://localhost:8080/getImages/${id}`}
@@ -50,8 +45,11 @@ function Viewphoto() {
           <div className=" ">
             <div className="text-center my-4">
               <button onClick={downloadphoto} className="btn btn-success">
-                DownloadPhoto
+                Photo <DownloadIcon />
               </button>
+              <NavLink className="btn btn-danger mx-4 " to="/ViewEmp">
+                <ArrowBackIcon /> Back
+              </NavLink>
             </div>
           </div>
         </div>

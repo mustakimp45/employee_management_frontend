@@ -37,13 +37,6 @@ export default function AddUser() {
 
     //sending data to backend
 
-    // const firstname = e.target.firstname.value;
-    // const lastname = e.target.lastname.value;
-    // const dob = e.target.dob.value;
-    // const email = e.target.email.value;
-    // const phone = e.target.phone.value;
-    // const photo = e.target.photo.value;
-
     let employee = {
       firstName: e.target.firstname.value,
       lastName: e.target.lastname.value,
@@ -102,21 +95,9 @@ export default function AddUser() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
-    // if (!value.photo) {
-    //   errors.photo = "photo is required";
-    // }
+
     return errors;
   };
-
-  // const addEmployee = () => {
-  //   Axios.post("http://localhost:3001/create", {
-  //     e_name: e_name,
-  //     e_age: e_age,
-  //     country: country,
-  //     position: position,
-  //     salary: salary,
-  //   }).then(() => {});
-  // };
 
   return (
     <>
@@ -209,19 +190,6 @@ export default function AddUser() {
                     />
                     <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
-
-                  {/* <div className="field mb-2">
-                    <label>PHOTO</label>
-                    <input
-                      type="file"
-                      name="photo"
-                      placeholder="Upload Photo"
-                      className="form-control"
-                      value={formValue.photo}
-                      onChange={handleChange}
-                    />
-                    <p className="mt-1 text-center">{formError.photo}</p>
-                  </div> */}
 
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">

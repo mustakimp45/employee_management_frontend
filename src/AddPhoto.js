@@ -17,20 +17,6 @@ function AddPhoto() {
     data.append("file", file);
     data.append("empId", id);
 
-    //prerview
-    // const reader = new FileReader()
-    // reader.addEventListener('loadend', () =>{
-    //   //console.log(reader.result);
-    //   setFileData(reader.result);
-    // });
-    // reader.readAsDataURL(file);
-
-    // let empId = id;
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
     axios
       .post(`/upload/${id}`, data)
       .then((response) => {
@@ -39,18 +25,21 @@ function AddPhoto() {
         alert("Photo Saved successfuly ");
       })
       .catch((error) => {
-        // console.log(error);
         alert(error);
       });
   }
 
   return (
-    <div className="Container  text-center my-4">
-      <form onSubmit={handleSubmit} className="flex-center">
-        <h1>Upload Employee Photo</h1>
-        <input type="file" onChange={handleChange} />
-        <button type="submit">Upload</button>
-      </form>
+    <div className="Container  text-center my-4 ">
+      <div className="border col-md-6 offset-md-3 text-center  my-4 shadow">
+        <form onSubmit={handleSubmit} className="flex-center my-4">
+          <h2>UPLOAD PHOTO</h2>
+          <div className="border col-md-8 offset-md-2 text-center my-3">
+            <input type="file" onChange={handleChange} />
+            <button type="submit">Upload</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
