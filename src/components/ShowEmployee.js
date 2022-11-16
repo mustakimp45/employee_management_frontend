@@ -6,22 +6,14 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import { UpdateEmployee } from "./UpdateEmployee";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
+import AddAPhotoSharpIcon from "@mui/icons-material/AddAPhotoSharp";
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import PanoramaIcon from "@mui/icons-material/Panorama";
 
 function ShowEmployee() {
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState(0);
-  const [dateOfBirth, setdateOfBirth] = useState("");
-  const [email, setemail] = useState("");
-  const [phone, setphone] = useState(0);
-
-  const [NewfirstName, setNewfirstName] = useState(0);
-  const [NewlastName, setNewlastName] = useState(0);
-  const [NewdateOfBirth, setNewdateOfBirth] = useState(0);
-  const [Newemail, setNewemail] = useState(0);
-  const [Newphone, setNewphone] = useState(0);
-
   const [EmployeeList, setEmployeeList] = useState([]);
 
   const showEmployee = () => {
@@ -30,40 +22,51 @@ function ShowEmployee() {
     });
   };
 
-  const updateEmployee = (id) => {
-    Axios.put(`/update/${id}`, {
-      id: id,
-      firstName: firstName,
-      lastName: lastName,
-      dateOfBirth: dateOfBirth,
-      email: email,
-      phone: phone,
-    }).then((response) => {
+  const deleteEmployee = (empId) => {
+    Axios.delete(`/delete/${empId}`).then((response) => {
       setEmployeeList(
-        EmployeeList.map((value) => {
-          return value.id === id
-            ? {
-                id: value.id,
-                firstName: firstName,
-                lastName: lastName,
-                dateOfBirth: dateOfBirth,
-                email: email,
-                phone: phone,
-              }
-            : value;
+        EmployeeList.filter((value) => {
+          return value.empId !== empId;
         })
       );
+      alert("succesfully deleted");
+    });
+    alert("DO YOU WANT TO DELETE PERMANENTLY?");
+  };
+
+  //PDF FOR INDIVIDUAL EMPLOYEE
+  const pdfEmployee = (empId) => {
+    console.log("pdf of one employee is working");
+    Axios.get(`/employee/${empId}`, { responseType: "blob" }).then(
+      (response) => {
+        console.log(typeof response.data);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `employee-${empId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+      }
+    );
+  };
+
+  //PDF FOR ALL EMPLOYEE
+
+  const pdfAllEmployee = () => {
+    console.log("all employee pdf is working ");
+    Axios.get(`/pdfDownload`, { responseType: "blob" }).then((response) => {
+      console.log(typeof response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "AllEmployeeList.pdf");
+      document.body.appendChild(link);
+      link.click();
     });
   };
 
-  const deleteEmployee = (id) => {
-    Axios.delete(`/delete/${id}`).then((response) => {
-      setEmployeeList(
-        EmployeeList.filter((value) => {
-          return value.id !== id;
-        })
-      );
-    });
+  const photoEmployee = () => {
+    console.log("photo is working ");
   };
 
   return (
@@ -78,29 +81,40 @@ function ShowEmployee() {
               type="button"
               onClick={showEmployee}
             >
-              Show Employee's
+              ViewEmp <VisibilityIcon />
+            </button>
+            <button
+              className="btn btn-info float-end "
+              type="button"
+              onClick={pdfAllEmployee}
+            >
+              EmpDetails
+              <DownloadForOfflineIcon />
             </button>
           </div>
           <div class="col"></div>
         </div>
-        {EmployeeList.map((value, key) => (
-          <div>
-            <table
-              className=" container table table-hover border shadow"
-              id="DisplayRequest"
-            >
-              <thead>
+
+        <div>
+          <table
+            className=" container table table-hover border shadow"
+            id="DisplayRequest"
+          >
+            <thead className="text-center">
+              <tr>
+                <th scope="col">EmpId</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">DOB</th>
+                <th scope="col">email ID</th>
+                <th scope="col">Phone No</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            {EmployeeList.map((value, key) => (
+              <tbody className="text-center">
                 <tr>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">DOB</th>
-                  <th scope="col">email ID</th>
-                  <th scope="col">Phone No</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+                  <td>{value.empId}</td>
                   <td>{value.firstName}</td>
                   <td>{value.lastName}</td>
                   <td>{value.dateOfBirth}</td>
@@ -112,26 +126,51 @@ function ShowEmployee() {
                     {/* {edit button} */}
                     <Link
                       className="btn btn-outline-primary"
-                      to={`/UpdateEmployee/${value.id}`}
+                      to={`/UpdateEmployee/${value.empId}`}
                     >
                       <EditIcon />
                     </Link>
 
                     <button
-                      className="btn btn-outline-danger"
+                      className="btn btn-outline-danger mx-1"
                       onClick={() => {
-                        deleteEmployee(value.id);
+                        deleteEmployee(value.empId);
                       }}
                     >
                       <DeleteIcon />
                     </button>
+
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => {
+                        pdfEmployee(value.empId);
+                      }}
+                    >
+                      <PictureAsPdfIcon />
+                    </button>
+                    <Link
+                      className="btn btn-outline-primary mx-1"
+                      to={`/AddPhoto/${value.empId}`}
+                    >
+                      <AddAPhotoSharpIcon />
+                    </Link>
+                    <Link
+                      className="btn btn-outline-primary "
+                      to={`/Viewphoto/${value.empId}`}
+                    >
+                      <PanoramaIcon />
+                    </Link>
                   </td>
                 </tr>
               </tbody>
-            </table>
-            <div></div>
+            ))}
+          </table>
+          <div>
+            <div className=" text-center footer text-light ">
+              <h6 className="my-3">@Estuate Inc</h6>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

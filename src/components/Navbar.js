@@ -27,7 +27,6 @@ function Navbar() {
               Home
             </NavbarLink>
             <NavbarLink to="/AddUser" className="btn btn-outline-light btn-sm">
-              {" "}
               AddUser
             </NavbarLink>
             {/* <NavbarLink to="/contact"> Contact Us</NavbarLink>

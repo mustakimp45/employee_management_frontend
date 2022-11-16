@@ -57,7 +57,7 @@ export default function AddUser() {
       .then((response) => {
         console.log(response);
         e.target.reset();
-        alert("succesfully added");
+        alert("Suucesfully Added");
       })
       .catch((error) => {
         // console.log(error);
@@ -119,13 +119,17 @@ export default function AddUser() {
   // };
 
   return (
-    <div>
+    <>
       <div className="container ">
         <div className="row">
-          <div className="col ">
-            <div className="col-md-4 offset-md-4 border border-secondary my-2 rounded   grid">
+          <div className="col">
+            <div className="col-md-4 offset-md-4 border border-secondary my-2 rounded  grid ">
               <div className="form-group border rounded my-3 mx-3 formBackground ">
-                <form onSubmit={handleSubmit} className="my-3 mx-3">
+                <form
+                  onSubmit={handleSubmit}
+                  className="my-3 mx-3 "
+                  enctype="multipart/form-data"
+                >
                   <div>
                     <header className="text-center">
                       <h3>REGISTER </h3>
@@ -206,7 +210,7 @@ export default function AddUser() {
                     <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
 
-                  <div className="field mb-2">
+                  {/* <div className="field mb-2">
                     <label>PHOTO</label>
                     <input
                       type="file"
@@ -217,7 +221,8 @@ export default function AddUser() {
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.photo}</p>
-                  </div>
+                  </div> */}
+
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">
                       Cancel
@@ -225,7 +230,6 @@ export default function AddUser() {
                     <button
                       className="btn btn-success mx-2 btn-lg "
                       type="submit"
-                      // onClick={addEmployee}
                     >
                       Submit
                     </button>
@@ -243,7 +247,7 @@ export default function AddUser() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
