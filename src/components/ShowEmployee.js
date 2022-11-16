@@ -1,7 +1,24 @@
 import React from "react";
 import Axios from "axios";
 import { useState } from "react";
+
+import "./showEmployee.css";
+
+//ICONS
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+
+//UPDATE FUNCTION
+import UpdateEmployee from "./UpdateEmployee";
+
 import { Link } from "react-router-dom";
+
+// commit 23f5c68534faf447312e2b3a49f5bdc2593d3525
+// Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
+// Date:   Thu Nov 10 17:15:20 2022 +0530
+
+//     Pdf download Working
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -162,11 +179,11 @@ function ShowEmployee() {
               </tbody>
             ))}
           </table>
-          {/* <div>
+          <div>
             <div className=" text-center footer text-light ">
               <h6 className="my-3">@Estuate Inc</h6>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

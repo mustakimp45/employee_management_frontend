@@ -9,21 +9,21 @@ export default function AddUser() {
   const initialValues = {
     empId: 0,
     estuate_ID: "",
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     dob: "",
     email: "",
     phone: "",
-    photo: "",
+    data: [""],
   };
-
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
   const [isSubmit, setisSubmit] = useState(false);
-
+  const [file, setFile] = useState();
   //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
+    setFile(e.target.file[0]);
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
@@ -35,6 +35,13 @@ export default function AddUser() {
     setformError(validate(formValue));
     setisSubmit(true);
 
+    //const url =`/register`
+    const formData = new formData();
+    formData.append("file", file);
+    formData.append("fileName", file.name);
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
     //sending data to backend
 
     let employee = {
@@ -44,9 +51,8 @@ export default function AddUser() {
       email: e.target.email.value,
       phone: e.target.phone.value,
     };
-
     axios
-      .post("/register", employee)
+      .post("/register", file, employee)
       .then((response) => {
         console.log(response);
         e.target.reset();

@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 export default function UpdateEmployee() {
-  const { id } = useParams();
+  const { empId } = useParams();
 
   //initialising the initial value as null
   const initialValues = {
+    empId :0,
+    estuate_ID: "",
     firstname: "",
     lastname: "",
     dob: "",
@@ -43,7 +45,7 @@ export default function UpdateEmployee() {
     };
 
     axios
-      .put(`/update/${id}`, employee)
+      .put(`/update/${empId}`, employee)
       .then((response) => {
         console.log(response);
         e.target.reset();
@@ -57,7 +59,7 @@ export default function UpdateEmployee() {
   // for getting data from database
 
   const loadUser = () => {
-    axios.get(`/employeeById/${id}`).then((response) => {
+    axios.get(`/employeeById/${empId}`).then((response) => {
       setformValue(response.data);
       console.log(response.data);
     });
