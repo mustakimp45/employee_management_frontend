@@ -27,13 +27,23 @@ function Navbar() {
               Home
             </NavbarLink>
             <NavbarLink to="/AddUser" className="btn btn-outline-light btn-sm">
-              {" "}
               AddUser
             </NavbarLink>
             {/* <NavbarLink to="/contact"> Contact Us</NavbarLink>
             <NavbarLink to="/about"> About Us</NavbarLink> */}
-            <NavbarLink to="/ViewEmp" className="btn btn-outline-light shadow-lg  rounded shadow btn-sm">View</NavbarLink>
-            <OpenLinksButton onClick={() => {setExtendNavbar((curr) => !curr);}}>{extendNavbar ? <>&#10005;</> : <> &#8801;</>}</OpenLinksButton>
+            <NavbarLink
+              to="/ViewEmp"
+              className="btn btn-outline-light shadow-lg  rounded shadow btn-sm"
+            >
+              ViewEmp
+            </NavbarLink>
+            <OpenLinksButton
+              onClick={() => {
+                setExtendNavbar((curr) => !curr);
+              }}
+            >
+              {extendNavbar ? <>&#10005;</> : <> &#8801;</>}
+            </OpenLinksButton>
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>{/* <Logo src={LogoImg}></Logo> */}</RightContainer>
@@ -42,7 +52,6 @@ function Navbar() {
         <NavbarExtendedContainer>
           <NavbarLinkExtended to="/"> Home</NavbarLinkExtended>
           <NavbarLinkExtended to="/AddUser"> Add User</NavbarLinkExtended>
-          <NavbarLinkExtended to="/ViewEmp" className="btn btn-outline-light shadow-lg  rounded shadow btn-sm">View</NavbarLinkExtended>
           {/* <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
           <NavbarLinkExtended to="/about"> About Us</NavbarLinkExtended> */}
         </NavbarExtendedContainer>

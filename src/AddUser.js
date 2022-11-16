@@ -7,23 +7,23 @@ import axios from "axios";
 export default function AddUser() {
   //initialising the initial value as null
   const initialValues = {
-    empId :0,
+    empId: 0,
     estuate_ID: "",
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     dob: "",
     email: "",
     phone: "",
-   data:[""]
+    photo: "",
   };
+
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
   const [isSubmit, setisSubmit] = useState(false);
-const [file,setFile] =useState()
+
   //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
-    setFile(e.target.file[0])
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
@@ -35,14 +35,6 @@ const [file,setFile] =useState()
     setformError(validate(formValue));
     setisSubmit(true);
 
-    //const url =`/register`
-    const formData = new formData()
-    formData.append('file',file)
-    formData.append('fileName',file.name)
-    const config = {
-      header:{'content-type': 'multipart/form-data',}
-      ,
-    }
     //sending data to backend
 
     // const firstname = e.target.firstname.value;
@@ -59,12 +51,13 @@ const [file,setFile] =useState()
       email: e.target.email.value,
       phone: e.target.phone.value,
     };
+
     axios
-      .post("/register",file,employee )
+      .post("/register", employee)
       .then((response) => {
         console.log(response);
         e.target.reset();
-        alert("succesfully added");
+        alert("Suucesfully Added");
       })
       .catch((error) => {
         // console.log(error);
@@ -112,7 +105,7 @@ const [file,setFile] =useState()
     // if (!value.photo) {
     //   errors.photo = "photo is required";
     // }
-    // return errors;
+    return errors;
   };
 
   // const addEmployee = () => {
@@ -126,13 +119,17 @@ const [file,setFile] =useState()
   // };
 
   return (
-    <div>
+    <>
       <div className="container ">
         <div className="row">
-          <div className="col ">
-            <div className="col-md-4 offset-md-4 border border-secondary my-2 rounded   grid">
+          <div className="col">
+            <div className="col-md-4 offset-md-4 border border-secondary my-2 rounded  grid ">
               <div className="form-group border rounded my-3 mx-3 formBackground ">
-                <form onSubmit={handleSubmit} className="my-3 mx-3">
+                <form
+                  onSubmit={handleSubmit}
+                  className="my-3 mx-3 "
+                  enctype="multipart/form-data"
+                >
                   <div>
                     <header className="text-center">
                       <h3>REGISTER </h3>
@@ -217,15 +214,15 @@ const [file,setFile] =useState()
                     <label>PHOTO</label>
                     <input
                       type="file"
-                      name="PhotoUpload"
-                      label="File"
+                      name="photo"
                       placeholder="Upload Photo"
                       className="form-control"
-                    // value={formValue.photo}
+                      value={formValue.photo}
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.photo}</p>
                   </div>
+
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">
                       Cancel
@@ -233,7 +230,6 @@ const [file,setFile] =useState()
                     <button
                       className="btn btn-success mx-2 btn-lg "
                       type="submit"
-                      // onClick={addEmployee}
                     >
                       Submit
                     </button>
@@ -251,7 +247,7 @@ const [file,setFile] =useState()
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

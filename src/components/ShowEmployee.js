@@ -1,110 +1,116 @@
-import React from 'react'
-import Axios from 'axios'
-import {useState} from 'react'
+import React from "react";
+import Axios from "axios";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import './showEmployee.css'
-
-//ICONS
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-
-//UPDATE FUNCTION
-import  UpdateEmployee  from './UpdateEmployee'
-
-import { Link } from 'react-router-dom';
-
-// commit 23f5c68534faf447312e2b3a49f5bdc2593d3525
-// Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
-// Date:   Thu Nov 10 17:15:20 2022 +0530     
-
-//     Pdf download Working
-
-
-// commit ea69f3f42092012c54fb4fbf1ef6721e5de366b8
-// Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
-// Date:   Thu Nov 10 17:22:19 2022 +0530     
-
-//     commit render showemployee
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
+import AddAPhotoSharpIcon from "@mui/icons-material/AddAPhotoSharp";
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import PanoramaIcon from "@mui/icons-material/Panorama";
 
 function ShowEmployee() {
+  const [EmployeeList, setEmployeeList] = useState([]);
 
-  const [EmployeeList , setEmployeeList] = useState([])
+  const showEmployee = () => {
+    Axios.get("/allEmployees", {}).then((response) => {
+      setEmployeeList(response.data);
+    });
+  };
 
-  const showEmployee = () =>{
-    Axios.get("/allEmployees",{
-    
-  }).then((response)=>{setEmployeeList(response.data)})
-  }
   const deleteEmployee = (empId) => {
     Axios.delete(`/delete/${empId}`).then((response) => {
       setEmployeeList(
-        EmployeeList.filter((val) => {
-          return val.empId !== empId
+        EmployeeList.filter((value) => {
+          return value.empId !== empId;
         })
       );
+      alert("succesfully deleted");
     });
-  }; 
+    alert("DO YOU WANT TO DELETE PERMANENTLY?");
+  };
 
-  const ViewEmployee = () =>{
-    Axios.get(`/pdfDownload`,{responseType:'blob'}).then((response) =>{
-      console.log(typeof(response.data))
-      const url = window.URL.createObjectURL(new Blob ([response.data]))
-      const link = document.createElement('a')
-      link.href = url
+  //PDF FOR INDIVIDUAL EMPLOYEE
+  const pdfEmployee = (empId) => {
+    console.log("pdf of one employee is working");
+    Axios.get(`/employee/${empId}`, { responseType: "blob" }).then(
+      (response) => {
+        console.log(typeof response.data);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `employee-${empId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+      }
+    );
+  };
 
-      link.setAttribute('download','AllEmployeeList.pdf')
+  //PDF FOR ALL EMPLOYEE
 
-      document.body.appendChild(link)
+  const pdfAllEmployee = () => {
+    console.log("all employee pdf is working ");
+    Axios.get(`/pdfDownload`, { responseType: "blob" }).then((response) => {
+      console.log(typeof response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "AllEmployeeList.pdf");
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
 
-      link.click()
-    })
-  }
-
-  const ViewEmployeeById = (empId) =>{
-    Axios.get(`/employee/${empId}`,{responseType:'blob'}).then((response) =>{
-      console.log(typeof(response.data))
-      const url = window.URL.createObjectURL(new Blob ([response.data]))
-      const link = document.createElement('a')
-      link.href = url
-    link.setAttribute('download',`employee-${empId}.pdf`)
-
-      document.body.appendChild(link)
-
-      link.click()
-    })
-  }
-
+  const photoEmployee = () => {
+    console.log("photo is working ");
+  };
 
   return (
-    <div className='MainContainer'>
-         <div>
-             <div className="containers-md">
-                 <div class="row">
-                        <div className="col-5">
-                              <div className="col-5 offset-md-4 my-4 d-flex p-2  my-2 mx-3">
-                                {/* <input className='' placeholder="Search"/> */}
-                                    <button className='btn btn-success'  type='button' onClick={showEmployee}>Show Employee's</button>
-                                          <button className='btn btn-outline-danger' onClick={ViewEmployee}><PictureAsPdfIcon/></button>
-                              </div>
-                        </div> 
-                </div>
+    <div>
+      <div>
+        <div className="containers-md"></div>
+        <div class="row">
+          <div class="col-5"></div>
+          <div class="col-5 offset-md-4 grid my-2 mx-3">
+            <button
+              className="btn btn-success"
+              type="button"
+              onClick={showEmployee}
+            >
+              ViewEmp <VisibilityIcon />
+            </button>
+            <button
+              className="btn btn-info float-end "
+              type="button"
+              onClick={pdfAllEmployee}
+            >
+              EmpDetails
+              <DownloadForOfflineIcon />
+            </button>
           </div>
           <div class="col"></div>
         </div>
-        {EmployeeList.map((value, key) => (
-          <div>
-            <table className="table table-hover" id="DisplayRequest">
-              <thead>
-                <tr>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">DOB</th>
-                  <th scope="col">email ID</th>
-                  <th scope="col">Phone No</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
+
+        <div>
+          <table
+            className=" container table table-hover border shadow"
+            id="DisplayRequest"
+          >
+            <thead>
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">DOB</th>
+                <th scope="col">email ID</th>
+                <th scope="col">Phone No</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            {EmployeeList.map((value, key) => (
               <tbody>
                 <tr>
                   <td>{value.firstName}</td>
@@ -113,19 +119,60 @@ function ShowEmployee() {
                   <td>{value.email}</td>
                   <td>{value.phone}</td>
                   <td>
-                    <button className="btn btn-outline-danger" onClick={() => {ViewEmployeeById(value.empId)}} ><PictureAsPdfIcon/></button>
-                    {/* <button className="btn btn-outline-primary" to={`/UpdateEmployee/${value.empId}`}><EditIcon /></button> */}
-                    <Link className='btn btn-outline-primary' to={`/UpdateEmployee/${value.empId}`}><EditIcon/></Link>
-                    <button className="btn btn-outline-danger" onClick={() => {deleteEmployee(value.empId);}}><DeleteIcon /></button>
+                    {/* <button className="btn btn-outline-primary" onClick={() => {ViewEmployee(value.id)}} ><VisibilityIcon /></button> */}
+
+                    {/* {edit button} */}
+                    <Link
+                      className="btn btn-outline-primary"
+                      to={`/UpdateEmployee/${value.empId}`}
+                    >
+                      <EditIcon />
+                    </Link>
+
+                    <button
+                      className="btn btn-outline-danger mx-1"
+                      onClick={() => {
+                        deleteEmployee(value.empId);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </button>
+
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => {
+                        pdfEmployee(value.empId);
+                      }}
+                    >
+                      <PictureAsPdfIcon />
+                    </button>
+                    <Link
+                      className="btn btn-outline-primary mx-1"
+                      to={`/AddPhoto/${value.empId}`}
+                    >
+                      <AddAPhotoSharpIcon />
+                    </Link>
+                    <Link
+                     accept="image/*"
+                      className="btn btn-outline-primary mx-1"
+                      to={`/Viewphoto/${value.empId}`}
+                    >
+                      <PanoramaIcon /> 
+                    </Link>
                   </td>
                 </tr>
               </tbody>
-            </table>
-            <div></div>
+            ))}
+          </table>
+          <div>
+            <div className=" text-center footer text-light ">
+              <h6 className="my-3">@Estuate Inc</h6>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
-  )
+    </div>
+  );
 }
 
-export default ShowEmployee
+export default ShowEmployee;

@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 export default function UpdateEmployee() {
-  const { empId } = useParams();
+  const { id } = useParams();
 
   //initialising the initial value as null
   const initialValues = {
-    empId :0,
-    estuate_ID: "",
     firstname: "",
     lastname: "",
     dob: "",
@@ -46,7 +44,7 @@ export default function UpdateEmployee() {
     };
 
     axios
-      .put(`/update/${empId}`, employee)
+      .put(`/update/${id}`, employee)
       .then((response) => {
         console.log(response);
         e.target.reset();
@@ -60,10 +58,8 @@ export default function UpdateEmployee() {
   // for getting data from database
 
   const loadUser = () => {
-    axios.get(`/employeeById/${empId}`).then((response) => {
+    axios.get(`/employeeById/${id}`).then((response) => {
       setformValue(response.data);
-      console.log(response);
-      // console.log(data);
       console.log(response.data);
     });
   };
@@ -201,7 +197,7 @@ export default function UpdateEmployee() {
                     <p className="mt-1 text-center">{formError.phone}</p>
                   </div>
 
-                  <div className="field mb-2">
+                  {/* <div className="field mb-2">
                     <label className="text-dark">PHOTO</label>
                     <input
                       type="file"
@@ -211,7 +207,7 @@ export default function UpdateEmployee() {
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.photo}</p>
-                  </div>
+                  </div> */}
                   <div className="text-center my-3">
                     <NavLink className="btn btn-danger " to="/">
                       Cancel
