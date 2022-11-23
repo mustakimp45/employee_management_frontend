@@ -1,25 +1,28 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function UpdateEmployee() {
-  const { empId } = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   //initialising the initial value as null
   const initialValues = {
-    empId :0,
-    estuate_ID: "",
     firstname: "",
     lastname: "",
     dob: "",
     email: "",
     phone: "",
+    photo: "",
   };
-  const [file, setFile] = useState();
+
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
-  const [isSubmit, setisSubmit] = useState(false);
+  // const [isSubmit, setisSubmit] = useState(true);
 
   //function to handle the change by user , like change in input fields
   const handleChange = (e) => {
@@ -32,34 +35,39 @@ export default function UpdateEmployee() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setformError(validate(formValue));
-    setisSubmit(true);
-
+    //setisSubmit(true);
     //sending data to backend
-
+    // if (isSubmit == true) {
     const employee = {
-      firstName: e.target.firstname.value,
-      lastName: e.target.lastname.value,
-      dateOfBirth: e.target.dob.value,
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+      dateOfBirth: e.target.dateOfBirth.value,
       email: e.target.email.value,
       phone: e.target.phone.value,
     };
 
     axios
-      .put(`/update/${empId}`, employee)
+      .put(`/update/${id}`, employee)
       .then((response) => {
         console.log(response);
         e.target.reset();
-        alert("update succesfully");
+        toast.success("update succesfully");
+        setTimeout(() => {
+          navigate("/viewEmp");
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);
       });
+    // } else if (isSubmit == false) {
+    //   toast.warn("enter data correctly");
+    // }
   };
 
   // for getting data from database
 
   const loadUser = () => {
-    axios.get(`/employeeById/${empId}`).then((response) => {
+    axios.get(`/employeeById/${id}`).then((response) => {
       setformValue(response.data);
       console.log(response.data);
     });
@@ -74,8 +82,9 @@ export default function UpdateEmployee() {
 
   useEffect(() => {
     console.log(formError);
-    if (Object.keys(formError).length === 0 && isSubmit) {
+    if (Object.keys(formError).length === 0) {
       console.log(formValue);
+      console.log(formValue.dateOfBirth);
     }
   }, [formError]);
 
@@ -88,17 +97,42 @@ export default function UpdateEmployee() {
   //function for validating input fields
 
   const validate = (value) => {
+    // //age verification
+    // var dob = formValue.dateofbirth;
+    // console.log(dob);
+    // console.log(formValue.dateofbirth);
+
+    // var year = Number(dob.substring(0, 4));
+    // console.log(year);
+    // var month = Number(dob.substring(4, 2)) - 1;
+    // var day = Number(dob.substring(6, 2));
+    // var today = new Date();
+    // var age = today.getFullYear() - year;
+    // if (
+    //   today.getMonth() < month ||
+    //   (today.getMonth() == month && today.getDate() < day)
+    // ) {
+    //   age--;
+    //   console.log(age);
+    // }
+    //=============================
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!value.firstname) {
-      errors.firstname = "firstname is required";
+    if (!value.firstName) {
+      errors.firstName = "firstname is required";
     }
-    if (!value.lastname) {
-      errors.lastname = "lastname is required";
+    if (!value.lastName) {
+      errors.lastName = "lastname is required";
     }
-    if (!value.dob) {
-      errors.dob = "date of birth is required";
+    if (!value.dateofbirth) {
+      errors.dateofbirth = "date of birth is required";
     }
+    // else if (!(age > 18)) {
+    //   toast((errors.dateofbirth = "Employee Must Be 18 year of Age"));
+    //   setisSubmit(false);
+    // } else if (age > 18) {
+    //   setisSubmit(true);
+    // }
     if (!value.email) {
       errors.email = "email is required";
     } else if (!regex.test(value.email)) {
@@ -109,7 +143,6 @@ export default function UpdateEmployee() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
-
     return errors;
   };
 
@@ -130,12 +163,12 @@ export default function UpdateEmployee() {
                     <label className="text-dark">FIRST NAME</label>
                     <input
                       type="text"
-                      name="firstname"
+                      name="firstName"
                       pattern="[a-zA-Z]{4,}"
                       required
                       title="ENTER ONLY ALFABETS"
                       className="form-control"
-                      value={formValue.firstname}
+                      value={formValue.firstName}
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.firstname}</p>
@@ -144,12 +177,12 @@ export default function UpdateEmployee() {
                     <label className="text-dark">LAST NAME</label>
                     <input
                       type="text"
-                      name="lastname"
+                      name="lastName"
                       pattern="[a-zA-Z]{4,}"
                       required
                       title="ENTER ONLY ALFABETS"
                       className="form-control"
-                      value={formValue.lastname}
+                      value={formValue.lastName}
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.lastname}</p>
@@ -159,10 +192,10 @@ export default function UpdateEmployee() {
                     <label className="text-dark">DATE OF BIRTH</label>
                     <input
                       type="date"
-                      name="dob"
+                      name="dateOfBirth"
                       pattern="\d{1,2}/\d{1,2}/\d{4}"
                       className="form-control"
-                      value={formValue.dob}
+                      value={formValue.dateOfBirth}
                       onChange={handleChange}
                     />
                     <p className="mt-1 text-center">{formError.dob}</p>
@@ -197,7 +230,7 @@ export default function UpdateEmployee() {
                   </div>
 
                   <div className="text-center my-3">
-                    <NavLink className="btn btn-danger " to="/">
+                    <NavLink className="btn btn-danger " to="/ViewEmp">
                       Cancel
                     </NavLink>
                     <button
@@ -216,6 +249,7 @@ export default function UpdateEmployee() {
                     </button>
                   </div>
                 </form>
+                <ToastContainer />
               </div>
             </div>
           </div>

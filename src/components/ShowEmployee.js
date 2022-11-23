@@ -1,54 +1,37 @@
 import React from "react";
 import Axios from "axios";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import "./showEmployee.css";
-
-//ICONS
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-
-//UPDATE FUNCTION
-import UpdateEmployee from "./UpdateEmployee";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-
-// commit 23f5c68534faf447312e2b3a49f5bdc2593d3525
-// Author: Sujith Priyam <sujithpriyamrajan2709@gmail.com>
-// Date:   Thu Nov 10 17:15:20 2022 +0530
-
-//     Pdf download Working
-
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import AddAPhotoSharpIcon from "@mui/icons-material/AddAPhotoSharp";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import PanoramaIcon from "@mui/icons-material/Panorama";
+import SendAndArchiveIcon from "@mui/icons-material/SendAndArchive";
 
 function ShowEmployee() {
   const [EmployeeList, setEmployeeList] = useState([]);
 
-  const showEmployee = () => {
+  useEffect(() => {
     Axios.get("/allEmployees", {}).then((response) => {
       setEmployeeList(response.data);
+      console.log(response.data);
     });
-  };
+  }, []);
 
   const deleteEmployee = (empId) => {
-    Axios.delete(`/delete/${empId}`).then((response) => {
+    Axios.delete(`/resign/${empId}`).then((response) => {
       setEmployeeList(
         EmployeeList.filter((value) => {
           return value.empId !== empId;
         })
       );
-      alert("succesfully deleted");
+      toast.success("succesfully deleted");
     });
-    alert("DO YOU WANT TO DELETE PERMANENTLY?");
   };
 
   //PDF FOR INDIVIDUAL EMPLOYEE
@@ -57,11 +40,15 @@ function ShowEmployee() {
     Axios.get(`/employee/${empId}`, { responseType: "blob" }).then(
       (response) => {
         console.log(typeof response.data);
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        //Create a Blob from the PDF Stream
+        const file = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(file);
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `employee-${empId}.pdf`);
         document.body.appendChild(link);
+
+        link.setAttribute("download", `employee-${empId}.pdf`);
+        window.open(url);
         link.click();
       }
     );
@@ -82,10 +69,6 @@ function ShowEmployee() {
     });
   };
 
-  const photoEmployee = () => {
-    console.log("photo is working ");
-  };
-
   return (
     <div>
       <div>
@@ -94,13 +77,6 @@ function ShowEmployee() {
           <div class="col-5"></div>
           <div class="col-5 offset-md-4 grid my-2 mx-3">
             <button
-              className="btn btn-success"
-              type="button"
-              onClick={showEmployee}
-            >
-              ViewEmp <VisibilityIcon />
-            </button>
-            <button
               className="btn btn-info float-end "
               type="button"
               onClick={pdfAllEmployee}
@@ -108,6 +84,14 @@ function ShowEmployee() {
               EmpDetails
               <DownloadForOfflineIcon />
             </button>
+
+            <Link
+              className="btn btn-warning float-end mx-3"
+              type="button"
+              to={"/ArchivedEmp"}
+            >
+              ArchivedEmp <SendAndArchiveIcon />
+            </Link>
           </div>
           <div class="col"></div>
         </div>
@@ -131,7 +115,7 @@ function ShowEmployee() {
             {EmployeeList.map((value, key) => (
               <tbody className="text-center">
                 <tr>
-                  <td>{value.empId}</td>
+                  <td>EST-{value.empId}</td>
                   <td>{value.firstName}</td>
                   <td>{value.lastName}</td>
                   <td>{value.dateOfBirth}</td>
@@ -179,12 +163,8 @@ function ShowEmployee() {
               </tbody>
             ))}
           </table>
-          <div>
-            <div className=" text-center footer text-light ">
-              <h6 className="my-3">@Estuate Inc</h6>
-            </div>
-          </div>
         </div>
+        <ToastContainer />
       </div>
     </div>
   );

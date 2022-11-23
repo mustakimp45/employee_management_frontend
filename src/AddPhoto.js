@@ -1,14 +1,21 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddPhoto() {
   const { id } = useParams();
   const [file, setFile] = useState();
+  const [preview, setPreview] = useState();
+  const navigate = useNavigate();
 
   function handleChange(event) {
     setFile(event.target.files[0]);
+    setPreview(URL.createObjectURL(event.target.files[0]));
   }
 
   function handleSubmit(event) {
@@ -18,27 +25,40 @@ function AddPhoto() {
     data.append("empId", id);
 
     axios
-      .post(`/upload/${id}`, data)
+      .post(`/setProfilePicture/${id}`, data)
       .then((response) => {
         console.log(response.data);
         console.log("photo is working ");
-        alert("Photo Saved successfuly ");
+        toast.success("Photo Saved successfuly ");
+        setTimeout(() => {
+          navigate("/viewEmp");
+        }, 3000);
       })
+
       .catch((error) => {
-        alert(error);
+        toast.error(error);
       });
   }
 
   return (
     <div className="Container  text-center my-4 ">
-      <div className="border col-md-6 offset-md-3 text-center  my-4 shadow">
+      <div className="border col-md-6 offset-md-3 text-center  my-4 shadow ">
         <form onSubmit={handleSubmit} className="flex-center my-4">
           <h2>UPLOAD PHOTO</h2>
           <div className="border col-md-8 offset-md-2 text-center my-3">
-            <input type="file" onChange={handleChange} />
-            <button type="submit">Upload</button>
+            <input className="my-1  " type="file" onChange={handleChange} />
+            <img style={{ width: "30%", height: "35%" }} src={preview} />
+          </div>
+          <div>
+            <NavLink className="btn btn-danger  my-3 " to="/ViewEmp">
+              <ArrowBackIcon /> Back
+            </NavLink>
+            <button className="btn btn-success mx-3" type="submit">
+              <FileUploadIcon /> Upload
+            </button>
           </div>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );

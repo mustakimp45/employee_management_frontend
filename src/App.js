@@ -17,6 +17,7 @@ import UpdateEmployee from "./components/UpdateEmployee";
 import ShowEmployee from "./components/ShowEmployee";
 import AddPhoto from "./AddPhoto";
 import Viewphoto from "./Viewphoto";
+import ArchivedEmp from "./ArchivedEmp";
 //WORKING ON FEEDBACK & ABOUT
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/UpdateEmployee/:id" element={<UpdateEmployee />} />
         <Route path="/AddPhoto/:id" element={<AddPhoto />} />
         <Route path="/Viewphoto/:id" element={<Viewphoto />} />
+        <Route path="/ArchivedEmp" element={<ArchivedEmp />} />
       </Routes>
     </Router>
   );

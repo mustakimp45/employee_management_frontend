@@ -1,10 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./AddUser.css";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddUser() {
+  const navigate = useNavigate();
   //initialising the initial value as null
   const initialValues = {
     empId: 0,
@@ -14,16 +17,15 @@ export default function AddUser() {
     dob: "",
     email: "",
     phone: "",
-    data: [""],
   };
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
-  const [isSubmit, setisSubmit] = useState(false);
-  const [file, setFile] = useState();
+  const [isSubmit, setisSubmit] = useState();
+
   //function to handle the change by user , like change in input fields
+
   const handleChange = (e) => {
-    setFile(e.target.file[0]);
     const { name, value } = e.target;
     setformValue({ ...formValue, [name]: value });
     console.log(formValue);
@@ -33,35 +35,34 @@ export default function AddUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setformError(validate(formValue));
-    setisSubmit(true);
 
-    //const url =`/register`
-    const formData = new formData();
-    formData.append("file", file);
-    formData.append("fileName", file.name);
-    const config = {
-      header: { "content-type": "multipart/form-data" },
-    };
     //sending data to backend
+    if (isSubmit == true) {
+      let employee = {
+        firstName: e.target.firstname.value,
+        lastName: e.target.lastname.value,
+        dateOfBirth: e.target.dob.value,
+        email: e.target.email.value,
+        phone: e.target.phone.value,
+      };
+      axios
+        .post("/register", employee)
+        .then((response) => {
+          console.log(response);
+          e.target.reset();
+          toast.success(`${response.data.firstName}-Sucessfully Added`);
 
-    let employee = {
-      firstName: e.target.firstname.value,
-      lastName: e.target.lastname.value,
-      dateOfBirth: e.target.dob.value,
-      email: e.target.email.value,
-      phone: e.target.phone.value,
-    };
-    axios
-      .post("/register", file, employee)
-      .then((response) => {
-        console.log(response);
-        e.target.reset();
-        alert("Suucesfully Added");
-      })
-      .catch((error) => {
-        // console.log(error);
-        alert(error.response.data.errorCode);
-      });
+          setTimeout(() => {
+            navigate("/viewEmp");
+          }, 3000); //5s
+        })
+
+        .catch((error) => {
+          // console.log(error);
+          toast.warn(error.response.data.errorCode);
+        });
+    } else {
+    }
   };
 
   //useEffect for render only when change in formValue ,
@@ -69,7 +70,6 @@ export default function AddUser() {
   useEffect(() => {
     console.log(formError);
     if (Object.keys(formError).length === 0 && isSubmit) {
-      console.log(formValue);
     }
   }, [formError]);
 
@@ -80,6 +80,21 @@ export default function AddUser() {
 
   //function for validating input fields
   const validate = (value) => {
+    //age verification
+    var dateofbirth = formValue.dob;
+    var year = Number(dateofbirth.substring(0, 4));
+    var month = Number(dateofbirth.substring(4, 2)) - 1;
+    var day = Number(dateofbirth.substring(6, 2));
+    var today = new Date();
+    var age = today.getFullYear() - year;
+    if (
+      today.getMonth() < month ||
+      (today.getMonth() == month && today.getDate() < day)
+    ) {
+      age--;
+      console.log(age);
+    }
+    //=============================
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!value.firstname) {
@@ -90,6 +105,11 @@ export default function AddUser() {
     }
     if (!value.dob) {
       errors.dob = "date of birth is required";
+    } else if (!(age > 18)) {
+      toast.error((errors.dob = "Employee Must Be 18 year of Age"));
+      setisSubmit(false);
+    } else if (age > 18) {
+      setisSubmit(true);
     }
     if (!value.email) {
       errors.email = "email is required";
@@ -101,7 +121,6 @@ export default function AddUser() {
     } else if (value.phone.length < 10) {
       errors.phone = "phone number must be 10 digit";
     }
-
     return errors;
   };
 
@@ -158,7 +177,7 @@ export default function AddUser() {
                     <input
                       type="date"
                       name="dob"
-                      pattern="\d{1,2}/\d{1,2}/\d{4}"
+                      // pattern="\d{1,2}/\d{1,2}/\d{4}"
                       placeholder="date of birth"
                       className="form-control"
                       value={formValue.dob}
@@ -172,7 +191,7 @@ export default function AddUser() {
                     <input
                       type="email"
                       name="email"
-                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                       placeholder="Example@gmail.com"
                       className="form-control"
                       value={formValue.email}
@@ -201,12 +220,14 @@ export default function AddUser() {
                     <NavLink className="btn btn-danger " to="/">
                       Cancel
                     </NavLink>
+
                     <button
                       className="btn btn-success mx-2 btn-lg "
                       type="submit"
                     >
                       Submit
                     </button>
+
                     <button
                       className="btn btn-warning "
                       type="reset"
@@ -216,6 +237,7 @@ export default function AddUser() {
                     </button>
                   </div>
                 </form>
+                <ToastContainer />
               </div>
             </div>
           </div>
