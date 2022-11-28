@@ -21,7 +21,7 @@ export default function AddUser() {
   //creating state for formValue . FormError , Submit
   const [formValue, setformValue] = useState(initialValues);
   const [formError, setformError] = useState({});
-  const [isSubmit, setisSubmit] = useState();
+  const [isSubmit, setisSubmit] = useState(true);
 
   //function to handle the change by user , like change in input fields
 
@@ -37,39 +37,37 @@ export default function AddUser() {
     setformError(validate(formValue));
 
     //sending data to backend
-    if (isSubmit == true) {
-      let employee = {
-        firstName: e.target.firstname.value,
-        lastName: e.target.lastname.value,
-        dateOfBirth: e.target.dob.value,
-        email: e.target.email.value,
-        phone: e.target.phone.value,
-      };
-      axios
-        .post("/register", employee)
-        .then((response) => {
-          console.log(response);
-          e.target.reset();
-          toast.success(`${response.data.firstName}-Sucessfully Added`);
 
-          setTimeout(() => {
-            navigate("/viewEmp");
-          }, 3000); //5s
-        })
+    let employee = {
+      firstName: e.target.firstname.value,
+      lastName: e.target.lastname.value,
+      dateOfBirth: e.target.dob.value,
+      email: e.target.email.value,
+      phone: e.target.phone.value,
+    };
+    axios
+      .post("/register", employee)
+      .then((response) => {
+        console.log(response);
+        e.target.reset();
+        toast.success(`${response.data.firstName}-Sucessfully Added`);
 
-        .catch((error) => {
-          // console.log(error);
-          toast.warn(error.response.data.errorCode);
-        });
-    } else {
-    }
+        setTimeout(() => {
+          navigate("/viewEmp");
+        }, 3000); //5s
+      })
+
+      .catch((error) => {
+        // console.log(error);
+        toast.warn(error.response.data.errorCode);
+      });
   };
 
   //useEffect for render only when change in formValue ,
   //formValue as dependency
   useEffect(() => {
     console.log(formError);
-    if (Object.keys(formError).length === 0 && isSubmit) {
+    if (Object.keys(formError).length === 0) {
     }
   }, [formError]);
 
